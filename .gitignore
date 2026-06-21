@@ -1,0 +1,17 @@
+# Entorno local
+local.settings.json
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+.python-packages/
+.venv/
+venv/
+
+# Vercel
+.vercel/
+
+# Azure (ya no se usa pero por si acaso)
+.azure/
