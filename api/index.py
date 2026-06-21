@@ -4,6 +4,7 @@ from datetime import datetime, date
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from typing import Optional
 
@@ -33,6 +34,19 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 
 REDIS_KEY = "leaderboard"
+
+# ---------------------------------------------------------------------------
+# Frontend
+# ---------------------------------------------------------------------------
+
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
+async def index():
+    html_path = os.path.join(os.path.dirname(__file__), "..", "public", "index.html")
+    try:
+        with open(html_path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Frontend not found")
 
 def get_redis() -> Redis:
     return Redis(
