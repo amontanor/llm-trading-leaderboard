@@ -2,9 +2,8 @@ import json
 import os
 from datetime import datetime, date
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 from typing import Optional
 
@@ -71,16 +70,6 @@ class SubmitRequest(BaseModel):
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
-
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
-async def index():
-    """Serve the leaderboard frontend."""
-    html_path = os.path.join(os.path.dirname(__file__), "..", "public", "index.html")
-    try:
-        with open(html_path, "r", encoding="utf-8") as f:
-            return f.read()
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail="Frontend not found")
 
 
 @app.post("/api/submit", status_code=201, summary="Enviar ganancia de un modelo")
